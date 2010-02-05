@@ -43,7 +43,7 @@ end
 ["suddenlybunt"].each do |s|
   File.copy(
     File.join(plugin_dir, 'javascripts', "#{s}.js"), 
-    File.join(root_dir, 'public', 'stylesheets', 'sass', "#{s}.js")
+    File.join(root_dir, 'public', 'javascripts', "#{s}.js")
   )
 end
 
