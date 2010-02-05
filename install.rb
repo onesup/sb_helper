@@ -38,7 +38,7 @@ end
 
 
 # copy javascript files
-File.makedirs File.join(root_dir, 'public', 'javascripts')
+# File.makedirs File.join(root_dir, 'public', 'javascripts')
 
 ["suddenlybunt"].each do |s|
   File.copy(
