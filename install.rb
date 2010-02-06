@@ -27,7 +27,8 @@ File.makedirs File.join(root_dir, 'public', 'images', 'master')
   "button_bg.png", 
   "background-gradient.gif", 
   "header-background.gif",
-  "spinner.gif"
+  "spinner.gif",
+  "transparentGif.gif"
 ].each do |s|
   File.copy(
     File.join(plugin_dir, 'images', s), 
