@@ -1,7 +1,7 @@
 //
 //
 //
-var SB_Base = {
+var _YooJin = {
   
   firstValue: function() {
     for (var i = 0; i < arguments.length; i++) {
@@ -44,7 +44,7 @@ var SB_Base = {
   },
   
   getBelowPosition: function(base_element) {
-    var pos = Position.cumulativeOffset($(base_element));
+    var pos = Position.positionedOffset($(base_element));
     return {x: pos[0], y: pos[1] + Element.getHeight(base_element)};
   },
 
@@ -171,7 +171,7 @@ var SB_Base = {
 //
 var SB_Popup = Class.create();
 
-SB_Popup.prototype = Object.extend(SB_Base, {
+SB_Popup.prototype = Object.extend(_YooJin, {
 
   initialize: function(popup) {
     
@@ -189,8 +189,6 @@ SB_Popup.prototype = Object.extend(SB_Base, {
     this.popup.popup = this;  // Make the popup object a property of the DOM popup element
     
     this.popup.addClassName("SB_Popup_popup");
-    
-    this.is_open = false;
   },
 
   
@@ -199,32 +197,33 @@ SB_Popup.prototype = Object.extend(SB_Base, {
   //
   showPopup: function(position, object) {
     var pos;
-    
-    console.log($(object).innerHTML)
+    var base_element = $(object);
     
     if (position == "below") {
-      pos = this.getBelowPosition(object);
+      pos = this.getBelowPosition(base_element);
     }
     else if (position == "auto") {
       
     }
 
-
     Element.setStyle(this.popup, { top: pos.y + "px", left: pos.x + "px" });
     new Effect.Appear(this.popup, { duration: this.options.show_duration });
-
-    this.is_open = true;
   },
   
   closePopup: function() {
     new Effect.Fade(this.popup, { duration: this.options.hide_duration });
-    this.is_open = false;
   },
 
   togglePopup: function(position, object) {
-    if (this.is_open) this.closePopup();
+    if (this.isOpen()) this.closePopup();
     else this.showPopup(position, object);
   },
+  
+  isOpen: function() {
+    return this.popup.visible();
+  },
+  
+  
   
   //
   //
@@ -236,15 +235,11 @@ SB_Popup.prototype = Object.extend(SB_Base, {
     var pos = this.getCenterPosition(this.popup);
     Element.setStyle(this.popup, { top: pos.y + "px", left: pos.x + "px" });
     new Effect.Appear(this.popup, { duration: this.options.show_duration });
-
-    this.is_open = true;
   },
   
   closeModal: function() {
     new Effect.Fade(this.popup, { duration: this.options.hide_duration });
     this._hideOverlay();
-
-    this.is_open = false;
   },
   
   showLoading: function() {
@@ -253,17 +248,18 @@ SB_Popup.prototype = Object.extend(SB_Base, {
   hideLoading: function() {
   },
   
-  _showOverlay: function(bg_color) {
+  _showOverlay: function() {
     if (!SB_Popup.overlay) {
       var overlay = document.createElement('div');
       overlay.setAttribute('id','SB_Popup_overlay');
       overlay.style.display = 'none';
       document.body.appendChild(overlay);
       SB_Popup.overlay = overlay;
+      
+      Event.observe(overlay, "click", function(e){Event.stop(e)});
     }
     
     SB_Popup.overlay.style.height = this.getPageDimensions().height + 'px';
-    SB_Popup.overlay.style.backgroundColor = "#333";
 
     new Effect.Appear(SB_Popup.overlay, {
       duration: this.options.show_duration, 
@@ -283,6 +279,46 @@ SB_Popup.prototype = Object.extend(SB_Base, {
 
 
 
+
+
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+(function(){
+  Event.observe(window.document, "click", closeAllPopup);
+})();
+
+var __shouldCloseAllPopup = true;
+
+function closeAllPopup(ev) {
+  var e = $(ev.srcElement || ev.target);
+
+  var click_popup;
+  if (e.hasClassName("SB_Popup_popup")) click_popup = e;
+  else click_popup = e.up(".SB_Popup_popup");
+  
+  if (__shouldCloseAllPopup) {
+    
+    if (!click_popup) {
+      $$(".SB_Popup_popup").invoke("hide");
+    }
+    
+    $$(".SB_select .select_button").each(function(button){
+      if (e.descendantOf(button)) {
+        
+      } else {
+        button.removeClassName("clicked");
+      }
+    });
+    
+    
+    if (click_popup && click_popup.hasClassName("select_options")) {
+      click_popup.hide();
+    }
+    
+  }
+};
 
 
 

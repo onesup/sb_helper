@@ -29,23 +29,25 @@
 
 .SB_select
   +clearfix
-  :padding 10px 100px
   .select_button
     :float left
-    :padding 7px 0
     a
-      :padding 5px 10px
+      :padding 0
+      :display block
       :border 1px solid #fff
     a:hover, a:active
-      :border 1px solid #999
       :text-decoration none
+      :border 1px solid #999
+      :background url(/images/master/arrow_dropdown.gif) no-repeat 95%
     &.clicked
       a
         :border 1px solid #999
+        :background url(/images/master/arrow_dropdown.gif) no-repeat 95%
   &.static_border
     .select_button
       a
         :border 1px solid #999
+        :background url(/images/master/arrow_dropdown.gif) no-repeat 95%
   ul.select_options
     :border 1px solid #999
     li

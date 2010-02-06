@@ -11,6 +11,13 @@ module SbPopupHelper
     }, html_options
   end
 
+  def button_to_close_popup(name, html_options = {})
+    button_to_function name, %q{
+      var e = $(this).up('.SB_Popup_popup');
+      if (e) e.popup.closeModal();
+    }, html_options
+  end
+
   def link_to_remote_popup(name, link_to_remote_options = {})
     id = id_from_url(link_to_remote_options[:url])
     hidden_content_id = "hidden_content_#{id}"
