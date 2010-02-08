@@ -111,7 +111,7 @@
       :font-size 1.1em
       :padding 4px 12px 2px
       * html &
-        :padding-bottom 3px
+        :padding-bottom 5px
       :border 1px solid #bbb
       :border-bottom 0px solid #ccc
       +normal_anchor_style(#000, #ddd, "none")
@@ -130,10 +130,12 @@
   :border-bottom 2px solid #ccc
   li
     :float left
-    :padding 0 2px
+    :padding 5px 2px 0
     a
       :font-size 1em
       :padding 3px 8px 2px
+      * html &
+        :padding-bottom 6px
       :border 2px solid #ccc
       :border-bottom 0px solid #999
       +normal_anchor_style(#000, #ccc, "none")
@@ -239,13 +241,13 @@
 
 =background_button(!height = 21px, !padding = 12px)
   :height = 21px - 1px + (!height - 21px)/2
+  :padding-top = (!height - 21px)/2 + 1
   :background
     :color #d8d8d8
     :image url(/images/master/button_bg.png)
     :repeat repeat-x
-  :padding-top = (!height - 21px)/2 + 1
   a
-    :padding 1px #{!padding}
+    :padding 0 #{!padding}
     +normal_anchor_style(#333, "transparent", "none")
     +active_anchor_style(#333, "transparent", "underline")
 
@@ -323,6 +325,8 @@
         :padding 4px 3px
     tr.total, tr.average
       :background #def
+      td
+        :background #def
     td.actions
       a
         :padding 0 2px

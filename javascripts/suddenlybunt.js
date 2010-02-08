@@ -11,6 +11,7 @@ var _YooJin = {
     }
     return undefined;
   },
+  
 
   //
   //
@@ -229,9 +230,7 @@ SB_Popup.prototype = Object.extend(_YooJin, {
   //
   //
   showModal: function() {
-
-    this._showOverlay();
-
+    this._showOverlay(this.popup);
     var pos = this.getCenterPosition(this.popup);
     Element.setStyle(this.popup, { top: pos.y + "px", left: pos.x + "px" });
     new Effect.Appear(this.popup, { duration: this.options.show_duration });
@@ -248,7 +247,7 @@ SB_Popup.prototype = Object.extend(_YooJin, {
   hideLoading: function() {
   },
   
-  _showOverlay: function() {
+  _showOverlay: function(dest) {
     if (!SB_Popup.overlay) {
       var overlay = document.createElement('div');
       overlay.setAttribute('id','SB_Popup_overlay');
@@ -259,8 +258,9 @@ SB_Popup.prototype = Object.extend(_YooJin, {
       Event.observe(overlay, "click", function(e){Event.stop(e)});
     }
     
+    SB_Popup.overlay.parentNode.appendChild(dest);
     SB_Popup.overlay.style.height = this.getPageDimensions().height + 'px';
-
+    
     new Effect.Appear(SB_Popup.overlay, {
       duration: this.options.show_duration, 
       to: this.options.opacity,

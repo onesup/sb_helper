@@ -26,12 +26,13 @@ module SbPopupHelper
   end
 
   def link_to_popup_below(name, popup_id, html_options = {})
-    link_to_function(name, 
-      "var popup = $('#{popup_id.to_s}').popup;\
-      if (!popup) popup = new SB_Popup('#{popup_id.to_s}');\
-      popup.togglePopup('below',this)",
-      html_options
-    )
+    link_to_function(name, function_to_popup_below(popup_id), html_options)
+  end
+  
+  def function_to_popup_below(popup_id)
+    "var popup = $('#{popup_id.to_s}').popup;\
+    if (!popup) popup = new SB_Popup('#{popup_id.to_s}');\
+    popup.togglePopup('below',this)"
   end
 
   def link_to_remote_popup_below(name, link_to_remote_options = {})
