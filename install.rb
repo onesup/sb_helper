@@ -7,18 +7,6 @@ root_dir = File.join(plugin_dir, '..', '..', '..')
 
 
 
-# copy sass files
-File.makedirs File.join(root_dir, 'public', 'stylesheets', 'sass')
-
-["sb_mixin", "sb_layout", "sb_reset", "sb_typo", "sb_form", "suddenlybunt"].each do |s|
-  File.copy(
-    File.join(plugin_dir, 'sass', "#{s}.sass"), 
-    File.join(root_dir, 'public', 'stylesheets', 'sass', "#{s}.sass")
-  )
-end
-
-
-
 # copy master image files
 File.makedirs File.join(root_dir, 'public', 'images', 'master')
 
@@ -41,7 +29,7 @@ end
 # copy javascript files
 # File.makedirs File.join(root_dir, 'public', 'javascripts')
 
-["suddenlybunt"].each do |s|
+["suddenlybunt", "behaviors", "prototype"].each do |s|
   File.copy(
     File.join(plugin_dir, 'javascripts', "#{s}.js"), 
     File.join(root_dir, 'public', 'javascripts', "#{s}.js")
@@ -49,4 +37,16 @@ end
 end
 
 
+
+# copy xml files
+File.makedirs File.join(root_dir, 'public', 'stylesheets', 'xml')
+
+[
+  "ellipsis.xml"
+].each do |s|
+  File.copy(
+    File.join(plugin_dir, 'xml', s), 
+    File.join(root_dir, 'public', 'stylesheets', 'xml', s)
+  )
+end
 

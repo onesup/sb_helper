@@ -12,6 +12,19 @@ var _YooJin = {
     return undefined;
   },
   
+  
+  //
+  //
+  getStyle: function(element, value) {
+    var s = {};
+    if (element.currentStyle) {
+      s = element.currentStyle;
+    }
+    else {
+      s = getComputedStyle(element,null);
+    }
+    return s[value];
+  },
 
   //
   //
@@ -46,7 +59,14 @@ var _YooJin = {
   
   getBelowPosition: function(base_element) {
     var pos = Position.positionedOffset($(base_element));
-    return {x: pos[0], y: pos[1] + Element.getHeight(base_element)};
+    
+    if (Prototype.Browser.IE) {
+      var fix_y = -1;
+    } else {
+      var fix_y = -5;
+    }
+    
+    return {x: pos[0], y: pos[1] + Element.getHeight(base_element) + fix_y};
   },
 
   getAutoPosition: function(mouse_x, mouse_y) {
@@ -166,125 +186,10 @@ var _YooJin = {
 
 
 
-
-//
-//
-//
-var SB_Popup = Class.create();
-
-SB_Popup.prototype = Object.extend(_YooJin, {
-
-  initialize: function(popup) {
-    
-    var options = Object.extend({
-      modal: false
-    }, arguments[2] || {});
-
-    options.duration = this.firstValue(options.duration, 0.3);
-    options.show_duration = this.firstValue(options.show_duration, options.duration);
-    options.hide_duration = this.firstValue(options.hide_duration, options.duration);
-    options.opacity = this.firstValue(options.opacity, 0.6);
-    this.options = options;
-
-    this.popup = $(popup);
-    this.popup.popup = this;  // Make the popup object a property of the DOM popup element
-    
-    this.popup.addClassName("SB_Popup_popup");
-  },
-
-  
-  //
-  //
-  //
-  showPopup: function(position, object) {
-    var pos;
-    var base_element = $(object);
-    
-    if (position == "below") {
-      pos = this.getBelowPosition(base_element);
-    }
-    else if (position == "auto") {
-      
-    }
-
-    Element.setStyle(this.popup, { top: pos.y + "px", left: pos.x + "px" });
-    new Effect.Appear(this.popup, { duration: this.options.show_duration });
-  },
-  
-  closePopup: function() {
-    new Effect.Fade(this.popup, { duration: this.options.hide_duration });
-  },
-
-  togglePopup: function(position, object) {
-    if (this.isOpen()) this.closePopup();
-    else this.showPopup(position, object);
-  },
-  
-  isOpen: function() {
-    return this.popup.visible();
-  },
-  
-  
-  
-  //
-  //
-  //
-  showModal: function() {
-    this._showOverlay(this.popup);
-    var pos = this.getCenterPosition(this.popup);
-    Element.setStyle(this.popup, { top: pos.y + "px", left: pos.x + "px" });
-    new Effect.Appear(this.popup, { duration: this.options.show_duration });
-  },
-  
-  closeModal: function() {
-    new Effect.Fade(this.popup, { duration: this.options.hide_duration });
-    this._hideOverlay();
-  },
-  
-  showLoading: function() {
-  },
-  
-  hideLoading: function() {
-  },
-  
-  _showOverlay: function(dest) {
-    if (!SB_Popup.overlay) {
-      var overlay = document.createElement('div');
-      overlay.setAttribute('id','SB_Popup_overlay');
-      overlay.style.display = 'none';
-      document.body.appendChild(overlay);
-      SB_Popup.overlay = overlay;
-      
-      Event.observe(overlay, "click", function(e){Event.stop(e)});
-    }
-    
-    SB_Popup.overlay.parentNode.appendChild(dest);
-    SB_Popup.overlay.style.height = this.getPageDimensions().height + 'px';
-    
-    new Effect.Appear(SB_Popup.overlay, {
-      duration: this.options.show_duration, 
-      to: this.options.opacity,
-      queue: { position: 'end', scope: 'SB_Popup_overlay' }}
-    );
-  },
-  
-  _hideOverlay: function() {
-    new Effect.Fade(SB_Popup.overlay, { 
-      duration: this.options.hide_duration,
-      queue: { position: 'end', scope: 'SB_Popup_overlay'}}
-    );
-  }
-  
-});
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 
+/*
 (function(){
   Event.observe(window.document, "click", closeAllPopup);
 })();
@@ -320,7 +225,4 @@ function closeAllPopup(ev) {
   }
 };
 
-
-
-
-
+*/

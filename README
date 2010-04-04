@@ -1,13 +1,28 @@
-SbHelper
-========
 
-Introduction goes here.
+Prototype.js Patch List
+=======================
+
+IE6/IE7:
+clonePosition() throws exception
+
+line 2085
+
+getOffsetParent: function(element) {
+  ...
+  while ((element = element.parentNode) && element != document.body && element != document)
+  ...
+},
 
 
-Example
-=======
-
-Example goes here.
 
 
-Copyright (c) 2010 [name of plugin creator], released under the MIT license
+
+
+
+
+
+
+
+
+
+

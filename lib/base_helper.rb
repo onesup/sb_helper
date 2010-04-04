@@ -32,8 +32,7 @@ module BaseHelper
 	end
 
   def text_with_line_break(text)
-    # ToDO: raw
-    ( h(text).gsub("\n", "<br />") )
+    ( h(text).strip.gsub("\n", "<br />") )
   end
 
 
@@ -45,11 +44,11 @@ module BaseHelper
   def title(arg)
     content_for(:title) { arg }
   end
-
+  
   def stylesheet(*args)
     content_for(:stylesheets) { stylesheet_link_tag(*args) }
   end
-
+  
   def javascript(*args)
     content_for(:javascripts) { javascript_include_tag(*args) }
   end
@@ -124,5 +123,19 @@ module BaseHelper
 	end
 
 
+
+  # BODY tag helper
+  
+  def body_START
+    bs = USE_BODY_TAG_WITH_BROWSER_CLASS ? "<body class=\"#{browser_class_name}\">" : "<body>"
+    if USE_MIN_WIDTH_CONTAINER
+      bs += %q{<div class="fixedwidth"><div class="minwidth"><div class="minwidth_wrapper"><div class="minwidth_holder">}
+    end
+    raw bs
+  end
+  
+  def body_END
+    raw (USE_MIN_WIDTH_CONTAINER ? "</div></div></div></div></body>" : "</body>")
+  end
 
 end
