@@ -10,9 +10,9 @@
 //
 
 =border_cornor_radius($v, $h, $size: 5px)
-  border-#{!v}-#{!h}-radius: $size
-  -moz-border-radius-#{!v}#{!h}: $size
-  -webkit-border-#{!v}-#{!h}-radius: $size
+  border-#{$v}-#{$h}-radius: $size
+  -moz-border-radius-#{$v}#{$h}: $size
+  -webkit-border-#{$v}-#{$h}-radius: $size
 
 =border_top_left_radius($size: 5px)
   +border-corner-radius("top", "left", $size)
